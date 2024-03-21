@@ -9,11 +9,11 @@ namespace MagellanTest.Controllers
     [Route("[controller]")]
     public class ItemsController : ControllerBase
     {
-        private const string CONN_STRING = "Host=localhost;Username=postgres;Password=mojoe1465;Database=part";
+       // private const string CONN_STRING = "Host=localhost;Username=postgres;Password=mojoe1465;Database=part";
 
         [HttpPost]
-        public IActionResult CreateItem(ItemModel item){
-            var dataSource = NpgsqlDataSource.Create(CONN_STRING);
+        public IActionResult CreateItem(ItemModel item, [FromServices] IConfiguration config){
+            var dataSource = NpgsqlDataSource.Create(config.GetConnectionString("default"));
 
             if(item.parent_item != null){
                 var command1 = dataSource.CreateCommand("select * from item where id = @parent_item;");
@@ -45,8 +45,8 @@ namespace MagellanTest.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<ItemModel> GetItem(int id){
-            var dataSource = NpgsqlDataSource.Create(CONN_STRING);
+        public ActionResult<ItemModel> GetItem(int id, [FromServices] IConfiguration config){
+            var dataSource = NpgsqlDataSource.Create(config.GetConnectionString("default"));
             var command = dataSource.CreateCommand("select * from item where id = @id;");
             command.Parameters.AddWithValue("id", NpgsqlDbType.Integer, id);
 
@@ -64,8 +64,8 @@ namespace MagellanTest.Controllers
         }
 
         [HttpGet("{item_name}")]
-        public IActionResult getTotalCost(string item_name){
-            var dataSource = NpgsqlDataSource.Create(CONN_STRING);
+        public IActionResult getTotalCost(string item_name, [FromServices] IConfiguration config){
+            var dataSource = NpgsqlDataSource.Create(config.GetConnectionString("default"));
             var command1 = dataSource.CreateCommand("select * from item where item_name = @item_name;");
             command1.Parameters.AddWithValue("item_name", NpgsqlDbType.Varchar, item_name);
             var reader = command1.ExecuteReader();
