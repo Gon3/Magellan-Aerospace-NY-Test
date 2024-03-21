@@ -9,8 +9,6 @@ namespace MagellanTest.Controllers
     [Route("[controller]")]
     public class ItemsController : ControllerBase
     {
-       // private const string CONN_STRING = "Host=localhost;Username=postgres;Password=mojoe1465;Database=part";
-
         [HttpPost]
         public IActionResult CreateItem(ItemModel item, [FromServices] IConfiguration config){
             var dataSource = NpgsqlDataSource.Create(config.GetConnectionString("default"));
