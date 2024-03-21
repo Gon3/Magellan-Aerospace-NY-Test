@@ -1,5 +1,8 @@
 ﻿# Magellan Aerospace Software Team Hiring Assignment
 
+#### One thing to take note of before you run the app: 
+The connection string is stored inside `appsettings.json` (under the `ConnectionStrings` section, the `default` parameter), make sure you change it in order to to allow the API to be able to connect to your local postgre sql database. 
+
 1. Create a PostgreSQL script that does the following 
     * Create a database called `Part`
     * Create a table named `item` in the `Part` database with the specification below
